@@ -2,6 +2,7 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import image from './imageFood.jpg'
 import icon from './icon.png'
+import video from './video.mp4'
 import MyRecipeComponents from './MyRecipeComponents';
 import Recipe from './Recipe';
 import New from './New';
@@ -20,13 +21,14 @@ function App() {
   const [mySearch, setMySearch] = useState("");
   const [myRecipes, setMyRecipes] = useState([]);
   const [wordSubmitted, setWordSubmitted] = useState("avocado");
-  const [btn, setBtn] = useState("Ingredients")
+  //const [btn, setBtn] = useState("Ingredients")
 
   useEffect(() => {
     const getRecipe = async() => {
       const response = await fetch(`https://api.edamam.com/api/recipes/v2?type=public&q=${wordSubmitted}&app_id=${MY_ID}&app_key=${MY_KEY}`);
       const data = await response.json();
       setMyRecipes(data.hits)
+      console.log(data.hits)
     }
     getRecipe()
   }, [wordSubmitted])
@@ -49,7 +51,9 @@ const finalSearch = (e) => {
     <div className="App">
 
       <div className="container">
-        <img src={image} alt='food' className='imageFood' />
+        <video autoPlay muted loop>
+        <source src={video} type="video/mp4" />
+        </video>
         <h1>BEST Recipe App</h1>
       </div>
 
@@ -57,12 +61,10 @@ const finalSearch = (e) => {
         <form onSubmit={finalSearch}>
           <input className='search' placeholder='Search ...' onChange={myRecipeSearch} value={mySearch}/>
         </form>
-      </div>
-
-      <div className='container'>
         <button onClick={finalSearch}>
-          <img src={icon} alt="icon" width="50px"/>
-        </button>
+          <img src={icon} alt="icon" width="30px"/>
+          </button>
+        
       </div>
 
 <div className='feature'>
@@ -71,6 +73,8 @@ const finalSearch = (e) => {
         label={element.recipe.label} 
         image={element.recipe.image} 
         calories={element.recipe.calories}
+        cuisineType={element.recipe.cuisineType}
+        url={element.recipe.url}
         ingredients={element.recipe.ingredientLines} />
         ))} 
 </div>
