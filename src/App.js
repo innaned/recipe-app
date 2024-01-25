@@ -1,17 +1,9 @@
 import './App.css';
 import { useEffect, useState } from 'react';
-import image from './imageFood.jpg'
 import icon from './icon.png'
 import video from './video.mp4'
 import MyRecipeComponents from './MyRecipeComponents';
-import Recipe from './Recipe';
-import New from './New';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link
-} from "react-router-dom";
+
 
 function App() {
 
@@ -21,14 +13,12 @@ function App() {
   const [mySearch, setMySearch] = useState("");
   const [myRecipes, setMyRecipes] = useState([]);
   const [wordSubmitted, setWordSubmitted] = useState("avocado");
-  //const [btn, setBtn] = useState("Ingredients")
 
   useEffect(() => {
     const getRecipe = async() => {
       const response = await fetch(`https://api.edamam.com/api/recipes/v2?type=public&q=${wordSubmitted}&app_id=${MY_ID}&app_key=${MY_KEY}`);
       const data = await response.json();
       setMyRecipes(data.hits)
-      console.log(data.hits)
     }
     getRecipe()
   }, [wordSubmitted])
@@ -42,14 +32,9 @@ const finalSearch = (e) => {
   setWordSubmitted(mySearch)
 }
 
-//const completeRecipe = () => {
-//  setBtn(<New />)
-//}
-
   return (
 
     <div className="App">
-
       <div className="container">
         <video autoPlay muted loop>
         <source src={video} type="video/mp4" />
@@ -74,7 +59,6 @@ const finalSearch = (e) => {
         image={element.recipe.image} 
         calories={element.recipe.calories}
         cuisineType={element.recipe.cuisineType}
-        url={element.recipe.url}
         ingredients={element.recipe.ingredientLines} />
         ))} 
 </div>
